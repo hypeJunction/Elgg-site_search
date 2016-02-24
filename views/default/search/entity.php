@@ -38,7 +38,7 @@ if (!$entity->getVolatileData('search_matched_extra')) {
 			$exclude = array('title', 'description');
 			break;
 	}
-	
+
 	$matches = array();
 	foreach ($fields as $field) {
 		if (in_array($field, $exclude)) {
@@ -110,16 +110,18 @@ $title = elgg_view('output/url', array(
 
 $subtitle = array();
 
-$type_keys = array(
-	"$type:$subtype",
-	"$type:default",
-	"item:$type:$subtype",
-	"item:$type",
-);
-foreach ($type_keys as $key) {
-	if (elgg_language_key_exists($key)) {
-		$subtitle['type'] = elgg_echo($key);
-		break;
+if ($subtype) {
+	$type_keys = array(
+		"$type:$subtype",
+		"$type:default",
+		"item:$type:$subtype",
+		"item:$type",
+	);
+	foreach ($type_keys as $key) {
+		if (elgg_language_key_exists($key)) {
+			$subtitle['type'] = elgg_echo($key);
+			break;
+		}
 	}
 }
 
@@ -141,13 +143,17 @@ if ($type == 'object') {
 	}
 }
 
-$time = $entity->getVolatileData('search_time');
-if (!$time) {
-	$time = elgg_view_friendly_time($entity->time_created);
+if ($type == 'object') {
+	$time = $entity->getVolatileData('search_time');
+	if (!$time) {
+		$time = elgg_view_friendly_time($entity->time_created);
+	}
+	$byline[] = $time;
 }
-$byline[] = $time;
 
-$subtitle['byline'] = implode(' ', $byline);
+if (!empty($byline)) {
+	$subtitle['byline'] = implode(' ', $byline);
+}
 
 $last_action = $entity->getVolatileData('select:last_action') ? : max($entity->last_action, $entity->last_login, $entity->time_created);
 if ($last_action) {
