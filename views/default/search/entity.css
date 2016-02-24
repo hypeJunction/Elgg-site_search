@@ -1,0 +1,23 @@
+.elgg-search-subtitle-element {
+	font-style: normal;
+	display: inline-block;
+}
+.elgg-search-subtitle-element:after {
+	content: "|";
+	padding: 0 5px;
+	display: inline-block;
+	vertical-align: middle;
+}
+.elgg-search-subtitle-element:last-of-type:after {
+	content: none;
+}
+
+.search-match-extra-label:after {
+	content: ":";
+	padding: 0 5px 0 0;
+	display: inline-block;
+	vertical-align: middle;
+}
+.search-matched-description + .search-matched-extra {
+    margin-top: 10px;
+}
