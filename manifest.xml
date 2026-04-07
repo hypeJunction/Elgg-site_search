@@ -4,7 +4,7 @@
 	<name>Site Search</name>
 	<id>site_search</id>
 
-	<description>Site Sear</description>
+	<description>Site Search</description>
 	<category>search</category>
 	<version type="dist">1.0.1</version>
 
@@ -23,19 +23,19 @@
 		<name>search</name>
 	</requires>
 
-	<requires>
+	<suggests>
 		<type>plugin</type>
 		<name>user_sort</name>
-	</requires>
+	</suggests>
 
-	<requires>
+	<suggests>
 		<type>plugin</type>
 		<name>object_sort</name>
-	</requires>
+	</suggests>
 
-	<requires>
+	<suggests>
 		<type>plugin</type>
 		<name>group_sort</name>
-	</requires>
+	</suggests>
 
 </plugin_manifest>
