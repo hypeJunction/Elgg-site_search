@@ -2,14 +2,14 @@
 
 $base_url = elgg_normalize_url('search/object') . '?' . parse_url(current_page_url(), PHP_URL_QUERY);
 
-$list_class = (array) elgg_extract('list_class', $vars, array());
+$list_class = (array) elgg_extract('list_class', $vars, []);
 $list_class[] = 'search-list';
 
-$item_class = (array) elgg_extract('item_class', $vars, array());
+$item_class = (array) elgg_extract('item_class', $vars, []);
 
-$options = (array) elgg_extract('options', $vars, array());
+$options = (array) elgg_extract('options', $vars, []);
 
-$list_options = array(
+$list_options = [
 	'full_view' => false,
 	'limit' => elgg_extract('limit', $vars, elgg_get_config('default_limit')) ? : 10,
 	'list_class' => implode(' ', $list_class),
@@ -20,29 +20,23 @@ $list_options = array(
 	'base_url' => $base_url,
 	'list_id' => 'search-object',
 	'item_view' => 'search/entity',
-);
+];
 
-$subtype = get_input('entity_subtype', ELGG_ENTITIES_NO_VALUE);
-if (!$subtype) {
-	$types = get_registered_entity_types();
-	$types = elgg_trigger_plugin_hook('search_types', 'get_queries', $params, $types);
-	$subtype = elgg_extract('object', $types);
-}
+$subtype = get_input('entity_subtype');
 
-$owner_guid = get_input('owner_guid', ELGG_ENTITIES_ANY_VALUE);
-$container_guid = get_input('container_guid', ELGG_ENTITIES_ANY_VALUE);
+$owner_guid = get_input('owner_guid');
+$container_guid = get_input('container_guid');
 
-$getter_options = array(
+$getter_options = [
 	'type' => 'object',
-	'subtype' => $subtype,
-	'owner_guid' => $owner_guid,
-	'container_guid' => $container_guid,
+	'subtype' => $subtype ?: null,
+	'owner_guid' => $owner_guid ?: null,
+	'container_guid' => $container_guid ?: null,
 	'search_type' => 'entities',
 	'query' => elgg_extract('query', $vars),
-	'preload_owner' => true,
+	'preload_owners' => true,
 	'preload_containers' => true,
-	'search_tags' => true,
-);
+];
 
 $options = array_merge($list_options, $options, $getter_options);
 
@@ -53,20 +47,3 @@ $params['show_search'] = true;
 $params['show_sort'] = true;
 $params['show_subtype'] = true;
 echo elgg_view('lists/objects', $params);
-
-// @todo: implement subtype search hooks
-//$results = null;
-//if ($subtype) {
-//	$results = elgg_trigger_plugin_hook('search', "object:$subtype", $options, NULL);
-//}
-//if (empty($results) && $results !== false) {
-//	$results = elgg_trigger_plugin_hook('search', 'object', $options, array());
-//}
-//
-//if (empty($results)) {
-//	$entities = array();
-//} else {
-//	$entities = elgg_extract('entities', $results);
-//}
-//
-//echo elgg_view_entity_list($entities, $options);

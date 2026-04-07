@@ -20,6 +20,10 @@
 		"hypejunction/object_sort": "~1.0",
 		"hypejunction/user_sort": "~1.0",
 		"hypejunction/group_sort": "~1.0"
+	},
+	"config": {
+		"allow-plugins": {
+			"composer/installers": true
+		}
 	}
 }
-

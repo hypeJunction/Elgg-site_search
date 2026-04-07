@@ -2,9 +2,10 @@
 
 $search_type = get_input('search_type');
 if (!$search_type) {
-	$segments = _elgg_services()->request->getUrlSegments();
-	$page = array_shift($segments); // 'search'
-	$search_type = array_shift($segments);
+	$page = elgg_extract('page', $vars, []);
+	if (is_array($page)) {
+		$search_type = elgg_extract(0, $page);
+	}
 }
 
 if (!elgg_view_exists("lists/search/$search_type")) {
@@ -17,10 +18,10 @@ if (!isset($query)) {
 }
 $query = stripslashes($query);
 
-$params = array(
+$params = [
 	'query' => $query,
 	'filter_context' => $search_type,
-);
+];
 
 $title = elgg_echo('search');
 
@@ -33,14 +34,14 @@ if (elgg_is_xhr()) {
 	$filter = elgg_view('filters/search', $params);
 	$sidebar = elgg_view('sidebars/search', $params);
 
-	$params = array(
+	$layout_params = [
 		'content' => $content,
 		'title' => $title,
 		'filter' => $filter,
-		'sidebar' => $sidebar
-	);
+		'sidebar' => $sidebar,
+	];
 
-	$body = elgg_view_layout('content', $params);
+	$body = elgg_view_layout('content', $layout_params);
 
 	echo elgg_view_page($title, $body);
 }
