@@ -1,12 +1,6 @@
 <?php
 
-$search_type = get_input('search_type');
-if (!$search_type) {
-	$page = elgg_extract('page', $vars, []);
-	if (is_array($page)) {
-		$search_type = elgg_extract(0, $page);
-	}
-}
+$search_type = elgg_extract('search_type', $vars, get_input('search_type', 'object'));
 
 if (!elgg_view_exists("lists/search/$search_type")) {
 	$search_type = 'object';
@@ -16,7 +10,6 @@ $query = get_input('query');
 if (!isset($query)) {
 	$query = get_input('q', get_input('tag', ''));
 }
-$query = stripslashes($query);
 
 $params = [
 	'query' => $query,
@@ -25,7 +18,7 @@ $params = [
 
 $title = elgg_echo('search');
 
-elgg_push_breadcrumb($title, 'search');
+elgg_push_breadcrumb($title, elgg_generate_url('default:search'));
 
 $content = elgg_view("lists/search/$search_type", $params);
 if (elgg_is_xhr()) {
@@ -41,7 +34,7 @@ if (elgg_is_xhr()) {
 		'sidebar' => $sidebar,
 	];
 
-	$body = elgg_view_layout('content', $layout_params);
+	$body = elgg_view_layout('default', $layout_params);
 
 	echo elgg_view_page($title, $body);
 }
