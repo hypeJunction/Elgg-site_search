@@ -43,7 +43,7 @@ if (!$entity->getVolatileData('search_matched_extra')) {
 			$exclude = ['name', 'description', 'briefdescription'];
 			break;
 		case 'object' :
-			$fields = elgg_get_registered_tag_metadata_names();
+			$fields = (array) elgg_get_config('registered_tag_metadata_names');
 			$prefix = 'tag_names';
 			$exclude = ['title', 'description'];
 			break;
