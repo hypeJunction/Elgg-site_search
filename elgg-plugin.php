@@ -1,6 +1,15 @@
 <?php
 
 return [
+	'plugin' => [
+		'name' => 'Site Search',
+		'version' => '4.0',
+		'dependencies' => [
+			'search' => [
+				'position' => 'after',
+			],
+		],
+	],
 	'routes' => [
 		'default:search' => [
 			'path' => '/search/{search_type?}',

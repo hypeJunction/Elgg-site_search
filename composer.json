@@ -1,13 +1,12 @@
 {
 	"name": "hypejunction/site_search",
-	"version": "1.0.1",
 	"type": "elgg-plugin",
-	"description": "Geocoder for Elgg",
+	"description": "Site search views and filters for Elgg",
 	"homepage": "http://hypejunction.com",
 	"keywords": [
-		"elgg", "plugin", "google", "api", "maps", "geocoding"
+		"elgg", "plugin", "search"
 	],
-	"license": "GPL-2.0",
+	"license": "GPL-2.0-or-later",
 	"authors": [
 		{
 			"name": "Ismayil Khayredinov",
@@ -16,7 +15,8 @@
 	],
 	"require": {
 		"php": ">=7.4",
-		"composer/installers": "~1.0",
+		"elgg/elgg": "^4.0",
+		"composer/installers": "^2.0",
 		"hypejunction/object_sort": "~1.0",
 		"hypejunction/user_sort": "~1.0",
 		"hypejunction/group_sort": "~1.0"
@@ -24,6 +24,11 @@
 	"config": {
 		"allow-plugins": {
 			"composer/installers": true
+		}
+	},
+	"extra": {
+		"elgg-plugin": {
+			"id": "site_search"
 		}
 	}
 }
