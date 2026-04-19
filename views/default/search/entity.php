@@ -138,14 +138,14 @@ if ($subtype) {
 $byline = [];
 if ($type == 'object') {
 	if ($owner) {
-		$owner_link = elgg_view('output/url', [
+$owner_link = elgg_view('output/url', [
 			'text' => $owner->getDisplayName(),
 			'href' => $owner->getURL(),
 		]);
 		$byline[] = elgg_echo('search:owner', [$owner_link]);
 	}
 	if ($container && !$container instanceof ElggUser && $container->guid != $owner->guid) {
-		$container_link = elgg_view('output/url', [
+$container_link = elgg_view('output/url', [
 			'text' => $container->getDisplayName(),
 			'href' => $container->getURL(),
 		]);

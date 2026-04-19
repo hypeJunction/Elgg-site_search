@@ -12,11 +12,11 @@ $search_types = elgg_trigger_plugin_hook('search_types', 'get_types', $vars, $se
 
 foreach ($search_types as $type) {
 	$href = elgg_generate_url('default:search', ['search_type' => $type]);
-	$href = elgg_http_add_url_query_elements($href, [
+$href = elgg_http_add_url_query_elements($href, [
 		'query' => elgg_extract('query', $vars),
 	]);
 
-	elgg_register_menu_item('filter', [
+elgg_register_menu_item('filter', [
 		'name' => "search_types:$type",
 		'href' => $href,
 		'text' => elgg_echo("search_types:$type"),
