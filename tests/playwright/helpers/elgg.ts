@@ -9,12 +9,12 @@ const DB_CONFIG = {
   database: process.env.ELGG_DB_NAME || 'elgg',
 };
 
-export async function loginAs(page: Page, username: string, password: string = 'testpass123') {
+export async function loginAs(page: Page, username: string, password: string = 'admin12345') {
   await page.goto('/login');
-  await page.fill('input[name="username"]', username);
-  await page.fill('input[name="password"]', password);
-  await page.click('button[type="submit"]');
-  await page.waitForURL(/\//);
+  await page.fill('.elgg-module-aside input[name="username"]', username);
+  await page.fill('.elgg-module-aside input[name="password"]', password);
+  await page.click('.elgg-module-aside button[type="submit"]');
+  await page.waitForURL(url => !url.toString().includes('/login'), { timeout: 15000 });
 }
 
 export async function queryDb(sql: string, params: any[] = []): Promise<any[]> {
@@ -46,14 +46,14 @@ export async function createTestObject(ownerGuid: number, subtype: string, title
   const conn = await mysql.createConnection(DB_CONFIG);
   try {
     const [result]: any = await conn.execute(
-      `INSERT INTO elgg_entities (type, subtype, owner_guid, container_guid, site_guid, access_id, time_created, time_updated, enabled)
-       VALUES ('object', ?, ?, ?, 1, 2, UNIX_TIMESTAMP(), UNIX_TIMESTAMP(), 'yes')`,
+      `INSERT INTO elgg_entities (type, subtype, owner_guid, container_guid, access_id, time_created, time_updated, enabled)
+       VALUES ('object', ?, ?, ?, 2, UNIX_TIMESTAMP(), UNIX_TIMESTAMP(), 'yes')`,
       [subtype, ownerGuid, ownerGuid]
     );
     const guid = result.insertId;
     await conn.execute(
-      `INSERT INTO elgg_metadata (entity_guid, name, value, time_created)
-       VALUES (?, 'title', ?, UNIX_TIMESTAMP()), (?, 'description', ?, UNIX_TIMESTAMP())`,
+      `INSERT INTO elgg_metadata (entity_guid, name, value, value_type, time_created)
+       VALUES (?, 'title', ?, 'text', UNIX_TIMESTAMP()), (?, 'description', ?, 'text', UNIX_TIMESTAMP())`,
       [guid, title, guid, description]
     );
     return guid as number;

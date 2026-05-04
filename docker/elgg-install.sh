@@ -20,6 +20,17 @@ echo "MySQL is ready."
 
 cd /var/www/html
 
+# Elgg core plugins live in vendor/elgg/elgg/mod/ and must be symlinked into
+# mod/ so the plugin loader can find them. Bind-mounted plugins always win.
+if [ -d /var/www/html/vendor/elgg/elgg/mod ]; then
+    for core_plugin_dir in /var/www/html/vendor/elgg/elgg/mod/*/; do
+        core_plugin_id=$(basename "${core_plugin_dir}")
+        if [ ! -e "/var/www/html/mod/${core_plugin_id}" ]; then
+            ln -s "${core_plugin_dir%/}" "/var/www/html/mod/${core_plugin_id}"
+        fi
+    done
+fi
+
 if [ ! -f /var/www/html/.elgg-installed ]; then
     echo "Installing Elgg 4.x..."
 
@@ -139,7 +150,18 @@ SETTINGS_VALUES
                 exit(1);
             }
         }
+
+        // Drop persistent caches so Apache rebuilds view paths with the
+        // newly-active plugin's overrides on first request.
+        elgg_invalidate_caches();
     " 2>&1 || echo "Plugin activation completed (check for errors above)."
+
+    # elgg_invalidate_caches() does not purge the local system-cache layer
+    # that ViewsService->configureFromCache() reads on boot, so view-path
+    # overrides from freshly activated plugins stay shadowed by the install
+    # snapshot. Wipe the on-disk cache trees directly.
+    rm -rf "${ELGG_DATA_ROOT:-/var/www/data/}cache/fastcache/"* \
+           "${ELGG_DATA_ROOT:-/var/www/data/}cache/localfastcache/"* 2>/dev/null || true
 
     # Hand the data root over to the Apache user. The installer ran as
     # root (entrypoint context) and left every cache subdirectory
