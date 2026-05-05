@@ -33,12 +33,12 @@ if (!$entity->getVolatileData('search_matched_extra')) {
 
 	switch ($type) {
 		case 'user' :
-			$fields = array_keys((array) elgg_get_config('profile_fields'));
+			$fields = array_keys((array) elgg()->fields->get('user', 'user'));
 			$prefix = 'profile';
 			$exclude = ['name', 'description', 'briefdescription'];
 			break;
 		case 'group' :
-			$fields = array_keys((array) elgg_get_config('group'));
+			$fields = array_keys((array) elgg()->fields->get('group', 'group'));
 			$prefix = 'group';
 			$exclude = ['name', 'description', 'briefdescription'];
 			break;
