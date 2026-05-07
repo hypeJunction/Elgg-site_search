@@ -15,10 +15,16 @@ class HookTest extends IntegrationTestCase {
     public function down() {
     }
 
+    /**
+     * @return string
+     */
     public function getPluginID(): string {
         return 'site_search';
     }
 
+    /**
+     * @return void
+     */
     public function testSearchTypesHookIsTriggered(): void {
         $called = false;
         $handler = function (\Elgg\Hook $hook) use (&$called) {
@@ -41,6 +47,9 @@ class HookTest extends IntegrationTestCase {
         $this->assertIsString($output);
     }
 
+    /**
+     * @return void
+     */
     public function testSearchTypesHookCanAddType(): void {
         $handler = function (\Elgg\Hook $hook) {
             $value = (array) $hook->getValue();
@@ -58,6 +67,9 @@ class HookTest extends IntegrationTestCase {
         $this->assertContains('custom_type', $result);
     }
 
+    /**
+     * @return void
+     */
     public function testSubtitleHookCanBeRegistered(): void {
         $user = $this->createUser();
         $entity = $this->createObject([

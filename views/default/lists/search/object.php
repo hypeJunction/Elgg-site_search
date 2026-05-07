@@ -11,7 +11,7 @@ $options = (array) elgg_extract('options', $vars, []);
 
 $list_options = [
 	'full_view' => false,
-	'limit' => elgg_extract('limit', $vars, elgg_get_config('default_limit')) ? : 10,
+	'limit' => elgg_extract('limit', $vars, elgg_get_config('default_limit')) ?: 10,
 	'list_class' => implode(' ', $list_class),
 	'item_class' => implode(' ', $item_class),
 	'no_results' => elgg_echo('search:no_results'),

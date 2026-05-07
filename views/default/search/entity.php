@@ -14,6 +14,7 @@ if (!$entity->getVolatileData('search_matched_title')) {
 	if ($query) {
 		$title = preg_replace('/(' . preg_quote($query, '/') . ')/i', '<strong>$1</strong>', $title);
 	}
+
 	$entity->setVolatileData('search_matched_title', $title);
 }
 
@@ -22,27 +23,27 @@ if (!$entity->getVolatileData('search_matched_description')) {
 	if ($query) {
 		$desc = preg_replace('/(' . preg_quote($query, '/') . ')/i', '<strong>$1</strong>', $desc);
 	}
+
 	$entity->setVolatileData('search_matched_description', $desc);
 }
 
 if (!$entity->getVolatileData('search_matched_extra')) {
-
 	$fields = [];
 	$prefix = '';
 	$exclude = [];
 
 	switch ($type) {
-		case 'user' :
+		case 'user':
 			$fields = array_keys((array) elgg()->fields->get('user', 'user'));
 			$prefix = 'profile';
 			$exclude = ['name', 'description', 'briefdescription'];
 			break;
-		case 'group' :
+		case 'group':
 			$fields = array_keys((array) elgg()->fields->get('group', 'group'));
 			$prefix = 'group';
 			$exclude = ['name', 'description', 'briefdescription'];
 			break;
-		case 'object' :
+		case 'object':
 			$fields = (array) elgg_get_config('registered_tag_metadata_names');
 			$prefix = 'tag_names';
 			$exclude = ['title', 'description'];
@@ -54,6 +55,7 @@ if (!$entity->getVolatileData('search_matched_extra')) {
 		if (in_array($field, $exclude)) {
 			continue;
 		}
+
 		$metadata = $entity->$field;
 		if (is_array($metadata)) {
 			foreach ($metadata as $text) {
@@ -82,8 +84,9 @@ $view_order = [];
 if ($subtype) {
 	$view_order[] = "search/$type/$subtype/entity";
 }
+
 $view_order[] = "search/$type/entity";
-$view_order[] = "search/entities/entity";
+$view_order[] = 'search/entities/entity';
 
 foreach ($view_order as $view) {
 	if (elgg_view_exists($view)) {
@@ -138,14 +141,15 @@ if ($subtype) {
 $byline = [];
 if ($type == 'object') {
 	if ($owner) {
-$owner_link = elgg_view('output/url', [
+		$owner_link = elgg_view('output/url', [
 			'text' => $owner->getDisplayName(),
 			'href' => $owner->getURL(),
 		]);
 		$byline[] = elgg_echo('search:owner', [$owner_link]);
 	}
+
 	if ($container && !$container instanceof ElggUser && $container->guid != $owner->guid) {
-$container_link = elgg_view('output/url', [
+		$container_link = elgg_view('output/url', [
 			'text' => $container->getDisplayName(),
 			'href' => $container->getURL(),
 		]);
@@ -158,6 +162,7 @@ if ($type == 'object') {
 	if (!$time) {
 		$time = elgg_view_friendly_time($entity->time_created);
 	}
+
 	$byline[] = $time;
 }
 
@@ -165,9 +170,9 @@ if (!empty($byline)) {
 	$subtitle['byline'] = implode(' ', $byline);
 }
 
-$last_action = $entity->getVolatileData('select:last_action') ? : max($entity->last_action, $entity->time_created);
+$last_action = $entity->getVolatileData('select:last_action') ?: max($entity->last_action, $entity->time_created);
 if ($last_action) {
-	$subtitle['last_action'] = elgg_echo("search:last_action", [elgg_get_friendly_time($last_action)]);
+	$subtitle['last_action'] = elgg_echo('search:last_action', [elgg_get_friendly_time($last_action)]);
 }
 
 $subtitle = elgg_trigger_plugin_hook('subtitle', "search:$type:$subtype", $vars, $subtitle);
@@ -181,9 +186,11 @@ $content = '';
 if ($description) {
 	$content .= elgg_format_element('div', ['class' => 'search-matched-description'], $description);
 }
+
 if ($extra_info) {
 	$content .= elgg_format_element('div', ['class' => 'search-matched-extra'], $extra_info);
 }
+
 $summary = elgg_view("$type/elements/summary", [
 	'entity' => $entity,
 	'tags' => false,
