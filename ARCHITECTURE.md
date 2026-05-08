@@ -1,8 +1,8 @@
-# site_search — Architecture (Elgg 4.x)
+# site_search — Architecture (Elgg 5.x)
 
 ## Summary
 
-Provides site-wide search views, route, and filter tabs for Elgg 4.x. The plugin replaces
+Provides site-wide search views, route, and filter tabs for Elgg 5.x. The plugin replaces
 Elgg's default search resource with a custom resource view that supports typed search
 (objects, users, groups) and per-type list views. It does not register any entities,
 actions, or hooks of its own — all integration is via routes, view extensions, and a
@@ -13,8 +13,8 @@ declared dependency on Elgg's built-in `search` plugin.
 | Field | Value |
 |-------|-------|
 | Plugin ID | `site_search` |
-| Elgg version | 4.x |
-| PHP minimum | 7.4 |
+| Elgg version | 5.x |
+| PHP minimum | 8.2 |
 | Composer package | `hypejunction/site_search` |
 | Dependencies | `search` (core), `object_sort`, `user_sort`, `group_sort` (bundled in `mod/`) |
 
@@ -49,7 +49,7 @@ site_search/
 │       ├── LanguageTest.php
 │       ├── RouteTest.php
 │       └── ViewsTest.php
-└── docker/                  — per-plugin Elgg 4.x Docker test stack
+└── docker/                  — per-plugin Elgg 5.x Docker test stack
 ```
 
 ## Registered Routes
@@ -66,12 +66,12 @@ Default `search_type` is `object`.
 |-----------|-----------|
 | `elgg.css` | `search/entity.css` |
 
-## Hooks Used (not registered)
+## Events Used (not registered)
 
-The `filters/search.php` view fires `elgg_trigger_plugin_hook('search_types', 'get_types', ...)` to
+The `filters/search.php` view fires `elgg_trigger_event_results('search_types', 'get_types', ...)` to
 allow other plugins to add search type filter tabs.
 
-The `search/entity.php` view fires `elgg_trigger_plugin_hook('subtitle', "search:$type:$subtype", ...)`
+The `search/entity.php` view fires `elgg_trigger_event_results('subtitle', "search:$type:$subtype", ...)`
 to allow plugins to inject subtitle elements into search results.
 
 ## Bundled Sub-Plugins (`mod/`)
