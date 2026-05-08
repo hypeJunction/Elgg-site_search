@@ -175,7 +175,7 @@ if ($last_action) {
 	$subtitle['last_action'] = elgg_echo('search:last_action', [elgg_get_friendly_time($last_action)]);
 }
 
-$subtitle = elgg_trigger_plugin_hook('subtitle', "search:$type:$subtype", $vars, $subtitle);
+$subtitle = elgg_trigger_event_results('subtitle', "search:$type:$subtype", $vars, $subtitle);
 
 $subtitle_str = '';
 foreach ($subtitle as $s) {

@@ -8,7 +8,7 @@ $search_types = [
 	'group',
 ];
 
-$search_types = elgg_trigger_plugin_hook('search_types', 'get_types', $vars, $search_types);
+$search_types = elgg_trigger_event_results('search_types', 'get_types', $vars, $search_types);
 
 foreach ($search_types as $type) {
 	$href = elgg_generate_url('default:search', ['search_type' => $type]);

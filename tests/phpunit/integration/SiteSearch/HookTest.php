@@ -5,7 +5,7 @@ namespace SiteSearch;
 use Elgg\IntegrationTestCase;
 
 /**
- * Verifies plugin-exposed hooks are triggered and can be filtered.
+ * Verifies plugin-exposed events are triggered and can be filtered.
  */
 class HookTest extends IntegrationTestCase {
 
@@ -27,23 +27,23 @@ class HookTest extends IntegrationTestCase {
      */
     public function testSearchTypesHookIsTriggered(): void {
         $called = false;
-        $handler = function (\Elgg\Hook $hook) use (&$called) {
+        $handler = function (\Elgg\Event $event) use (&$called) {
             $called = true;
-            $value = (array) $hook->getValue();
+            $value = (array) $event->getValue();
             $value[] = 'custom';
             return $value;
         };
 
-        elgg_register_plugin_hook_handler('search_types', 'get_types', $handler);
+        elgg_register_event_handler('search_types', 'get_types', $handler);
 
         $output = elgg_view('filters/search', [
             'query' => 'x',
             'filter_context' => 'object',
         ]);
 
-        elgg_unregister_plugin_hook_handler('search_types', 'get_types', $handler);
+        elgg_unregister_event_handler('search_types', 'get_types', $handler);
 
-        $this->assertTrue($called, 'search_types,get_types hook should fire when filters/search renders');
+        $this->assertTrue($called, 'search_types,get_types event should fire when filters/search renders');
         $this->assertIsString($output);
     }
 
@@ -51,17 +51,17 @@ class HookTest extends IntegrationTestCase {
      * @return void
      */
     public function testSearchTypesHookCanAddType(): void {
-        $handler = function (\Elgg\Hook $hook) {
-            $value = (array) $hook->getValue();
+        $handler = function (\Elgg\Event $event) {
+            $value = (array) $event->getValue();
             $value[] = 'custom_type';
             return $value;
         };
 
-        elgg_register_plugin_hook_handler('search_types', 'get_types', $handler);
+        elgg_register_event_handler('search_types', 'get_types', $handler);
 
-        $result = elgg_trigger_plugin_hook('search_types', 'get_types', [], ['object', 'user', 'group']);
+        $result = elgg_trigger_event_results('search_types', 'get_types', [], ['object', 'user', 'group']);
 
-        elgg_unregister_plugin_hook_handler('search_types', 'get_types', $handler);
+        elgg_unregister_event_handler('search_types', 'get_types', $handler);
 
         $this->assertIsArray($result);
         $this->assertContains('custom_type', $result);
@@ -81,23 +81,23 @@ class HookTest extends IntegrationTestCase {
         ]);
 
         $called = false;
-        $handler = function (\Elgg\Hook $hook) use (&$called) {
+        $handler = function (\Elgg\Event $event) use (&$called) {
             $called = true;
-            $value = (array) $hook->getValue();
+            $value = (array) $event->getValue();
             $value['custom'] = 'custom_subtitle';
             return $value;
         };
 
-        elgg_register_plugin_hook_handler('subtitle', 'search:object:blog', $handler);
+        elgg_register_event_handler('subtitle', 'search:object:blog', $handler);
 
         $output = elgg_view('search/entity', [
             'entity' => $entity,
             'query' => 'hook',
         ]);
 
-        elgg_unregister_plugin_hook_handler('subtitle', 'search:object:blog', $handler);
+        elgg_unregister_event_handler('subtitle', 'search:object:blog', $handler);
 
-        $this->assertTrue($called, 'subtitle,search:object:blog hook should fire when rendering search/entity');
+        $this->assertTrue($called, 'subtitle,search:object:blog event should fire when rendering search/entity');
         $this->assertStringContainsString('custom_subtitle', $output);
     }
 }
