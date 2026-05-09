@@ -1,6 +1,6 @@
 <?php
 
-$base_url = elgg_generate_url('default:search', ['search_type' => 'group']) . '?' . parse_url(elgg_get_current_url(), PHP_URL_QUERY);
+$base_url = elgg_generate_url('default:search', ['search_type' => 'group']) . '?' . parse_url(current_page_url(), PHP_URL_QUERY);
 
 $list_class = (array) elgg_extract('list_class', $vars, []);
 $list_class[] = 'search-list';
