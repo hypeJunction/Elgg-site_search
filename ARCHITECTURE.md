@@ -1,4 +1,4 @@
-# site_search — Architecture (Elgg 5.x)
+# site_search — Architecture (Elgg 6.x)
 
 ## Summary
 
