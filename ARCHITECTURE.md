@@ -1,8 +1,8 @@
-# site_search — Architecture (Elgg 6.x)
+# site_search — Architecture (Elgg 7.x)
 
 ## Summary
 
-Provides site-wide search views, route, and filter tabs for Elgg 5.x. The plugin replaces
+Provides site-wide search views, route, and filter tabs for Elgg 6.x. The plugin replaces
 Elgg's default search resource with a custom resource view that supports typed search
 (objects, users, groups) and per-type list views. It does not register any entities,
 actions, or hooks of its own — all integration is via routes, view extensions, and a
@@ -13,8 +13,8 @@ declared dependency on Elgg's built-in `search` plugin.
 | Field | Value |
 |-------|-------|
 | Plugin ID | `site_search` |
-| Elgg version | 5.x |
-| PHP minimum | 8.2 |
+| Elgg version | 7.x |
+| PHP minimum | 8.3 |
 | Composer package | `hypejunction/site_search` |
 | Dependencies | `search` (core), `object_sort`, `user_sort`, `group_sort` (bundled in `mod/`) |
 
@@ -49,7 +49,7 @@ site_search/
 │       ├── LanguageTest.php
 │       ├── RouteTest.php
 │       └── ViewsTest.php
-└── docker/                  — per-plugin Elgg 5.x Docker test stack
+└── docker/                  — per-plugin Elgg Docker test stacks (5.x, 6.x and 7.x)
 ```
 
 ## Registered Routes
@@ -103,9 +103,24 @@ These are shipped as part of site_search but installed as separate Elgg plugins 
 - `composer.json` updated: added `elgg/elgg: ^4.0`, bumped `composer/installers` to `^2.0`,
   added `extra.elgg-plugin.id`, removed `version` field.
 
+## Migration Notes (5.x → 6.x)
+
+- `elgg/elgg ~6.1.0`, `php >=8.1`, `ext-intl` added in `composer.json`.
+- Bundled sort modules' AMD JS (`define(function(require){...})`) converted to ESM in `object_sort`, `user_sort`, `group_sort`.
+- `elgg.get()` AJAX replaced with `elgg/Ajax` module. Pre-existing `.on(this)` bug fixed to `.bind(this)`.
+- Docker test stack added for Elgg 6.x (docker/elgg6/).
+- No deprecated PHP hook functions found — all already use `elgg_trigger_event_results`.
+- No data migration needed.
+
+## Migration Notes (6.x → 7.x)
+
+- `elgg/elgg ~7.0.0`, `php >=8.3` in `composer.json`.
+- Docker test stack added for Elgg 7.x (docker/elgg7/) with PHP 8.3.
+- No breaking changes in this plugin: no CSS Crush syntax, no direct `ElggObject` instantiation, no removed Elgg APIs.
+- No data migration needed.
+
 ## Known Limitations
 
-- The `mod/` sub-plugins (`object_sort`, `user_sort`, `group_sort`, `forms_api`) still use
-  2.x-style `start.php` bootstrap and `manifest.xml`. Each needs a separate migration to
-  add `elgg-plugin.php`, a Bootstrap class, and remove legacy files before they can be
-  activated on Elgg 4.x.
+- The `mod/` sub-plugins (`object_sort`, `user_sort`, `group_sort`, `forms_api`) are bundled
+  copies that ship as Elgg plugins via Composer. They require activation in the correct order
+  (forms_api → object_sort/user_sort/group_sort → site_search).
