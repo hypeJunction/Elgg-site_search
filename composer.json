@@ -2,7 +2,7 @@
 	"name": "hypejunction/site_search",
 	"type": "elgg-plugin",
 	"description": "Site search views and filters for Elgg",
-	"homepage": "http://hypejunction.com",
+	"homepage": "https://github.com/hypeJunction/Elgg-site_search",
 	"keywords": [
 		"elgg", "plugin", "search"
 	],
@@ -10,7 +10,7 @@
 	"authors": [
 		{
 			"name": "Ismayil Khayredinov",
-			"email": "info@hypejunction.com"
+			"email": "ismayil.khayredinov@gmail.com"
 		}
 	],
 	"require": {
