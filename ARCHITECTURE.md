@@ -89,6 +89,10 @@ These are shipped as part of site_search but installed as separate Elgg plugins 
 > at deploy time. They are NOT visible to Elgg from inside `site_search/mod/` — they must
 > be installed at the top-level `mod/` directory to be activated.
 
+## Seeding
+
+No seeder required. This plugin owns no entity types, subtypes, or persistent relationship schemas — it is a pure UI/utility/admin plugin with no persisted entity surface of its own.
+
 ## Migration Notes (3.x → 4.x)
 
 - Removed `manifest.xml` — metadata moved to `elgg-plugin.php` `'plugin'` key.
