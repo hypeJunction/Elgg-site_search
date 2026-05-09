@@ -49,13 +49,7 @@ test.describe('site_search plugin', () => {
     await expect(filter.locator('text=/Groups/i')).toBeVisible();
   });
 
-  // The result-list views (lists/objects, lists/users, lists/groups) ship with
-  // site_search's bundled object_sort/user_sort/group_sort plugins. Those bundled
-  // deps are still in their Elgg 2.x layout (no elgg-plugin.php) so they can't be
-  // activated alongside site_search on the Elgg 4.x stack. Re-enable these tests
-  // once the bundled deps are migrated and exposed to /var/www/html/mod/.
   test('search page renders with explicit object context', async ({ page }) => {
-    test.fixme(true, 'requires migrated object_sort dep');
     await loginAs(page, 'admin');
     const response = await page.goto('/search/object?query=test');
     expect(response?.status()).toBeLessThan(400);
@@ -63,7 +57,6 @@ test.describe('site_search plugin', () => {
   });
 
   test('search page renders user context', async ({ page }) => {
-    test.fixme(true, 'requires migrated user_sort dep');
     await loginAs(page, 'admin');
     const response = await page.goto('/search/user?query=admin');
     expect(response?.status()).toBeLessThan(400);
@@ -71,16 +64,14 @@ test.describe('site_search plugin', () => {
   });
 
   test('search page renders group context', async ({ page }) => {
-    test.fixme(true, 'requires migrated group_sort dep');
     await loginAs(page, 'admin');
     const response = await page.goto('/search/group?query=test');
     expect(response?.status()).toBeLessThan(400);
-    const groupList = page.locator('#search-group, .search-list');
+    const groupList = page.locator('.group-sort-list, .search-list, .elgg-no-results');
     await expect(groupList.first()).toBeVisible();
   });
 
   test('search finds seeded object and highlights query term', async ({ page }) => {
-    test.fixme(true, 'requires migrated object_sort dep');
     test.skip(!testObjectGuid, 'no seeded test object');
     await loginAs(page, 'admin');
     await page.goto(`/search/object?query=${encodeURIComponent(searchableTitle)}`);
@@ -117,7 +108,6 @@ test.describe('site_search plugin', () => {
   });
 
   test('unknown search_type falls back to object', async ({ page }) => {
-    test.fixme(true, 'requires migrated object_sort dep');
     await loginAs(page, 'admin');
     const response = await page.goto('/search/nonsense?query=x');
     expect(response?.status()).toBeLessThan(500);

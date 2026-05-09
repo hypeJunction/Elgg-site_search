@@ -105,6 +105,7 @@ if (!$icon) {
 		$icon = elgg_view_entity_icon($entity, $size);
 	}
 }
+$icon = $icon ?: '';
 
 $title = $entity->getVolatileData('search_matched_title');
 $description = $entity->getVolatileData('search_matched_description');

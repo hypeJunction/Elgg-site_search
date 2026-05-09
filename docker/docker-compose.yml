@@ -27,6 +27,12 @@ services:
       # Plugin source is mounted read-write so composer install and test
       # artifacts written inside the container land back in the repo.
       - ..:/var/www/html/mod/${PLUGIN_ID}
+      # Bundled dep plugins exposed as first-class Elgg plugins.
+      # Use the standalone Elgg 5.x forms_api (bundled copy is v2.x, incompatible).
+      - ../../forms_api:/var/www/html/mod/forms_api
+      - ../mod/object_sort:/var/www/html/mod/object_sort
+      - ../mod/user_sort:/var/www/html/mod/user_sort
+      - ../mod/group_sort:/var/www/html/mod/group_sort
     environment:
       PLUGIN_ID: ${PLUGIN_ID}
       ELGG_DB_HOST: db

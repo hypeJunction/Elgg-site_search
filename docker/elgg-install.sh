@@ -31,6 +31,17 @@ if [ -d /var/www/html/vendor/elgg/elgg/mod ]; then
     done
 fi
 
+# Bundled deps under <plugin>/mod/ must be exposed at mod/ so Elgg's plugin
+# loader can discover and activate them.
+if [ -d "/var/www/html/mod/${PLUGIN_ID}/mod" ]; then
+    for bundled_dir in "/var/www/html/mod/${PLUGIN_ID}/mod"/*/; do
+        bundled_id=$(basename "${bundled_dir}")
+        if [ ! -e "/var/www/html/mod/${bundled_id}" ]; then
+            ln -s "${bundled_dir%/}" "/var/www/html/mod/${bundled_id}"
+        fi
+    done
+fi
+
 if [ ! -f /var/www/html/.elgg-installed ]; then
     echo "Installing Elgg 5.x..."
 
