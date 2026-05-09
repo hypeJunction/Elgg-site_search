@@ -3,7 +3,7 @@
 return [
 	'plugin' => [
 		'name' => 'Site Search',
-		'version' => '5.0.0',
+		'version' => '7.0.0',
 		'dependencies' => [
 			'search' => [
 				'position' => 'after',
