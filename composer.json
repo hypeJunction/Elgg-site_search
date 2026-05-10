@@ -1,35 +1,38 @@
 {
-	"name": "hypejunction/site_search",
-	"type": "elgg-plugin",
-	"description": "Site search views and filters for Elgg",
-	"homepage": "https://github.com/hypeJunction/Elgg-site_search",
-	"keywords": [
-		"elgg", "plugin", "search"
-	],
-	"license": "GPL-2.0-or-later",
-	"authors": [
-		{
-			"name": "Ismayil Khayredinov",
-			"email": "ismayil.khayredinov@gmail.com"
-		}
-	],
-	"require": {
-		"php": ">=8.3",
-		"ext-intl": "*",
-		"elgg/elgg": "~7.0.0",
-		"composer/installers": "^2.0",
-		"hypejunction/object_sort": "~1.0",
-		"hypejunction/user_sort": "~1.0",
-		"hypejunction/group_sort": "~1.0"
-	},
-	"config": {
-		"allow-plugins": {
-			"composer/installers": true
-		}
-	},
-	"extra": {
-		"elgg-plugin": {
-			"id": "site_search"
-		}
-	}
+    "name": "hypejunction/site_search",
+    "type": "elgg-plugin",
+    "description": "Site search views and filters for Elgg",
+    "homepage": "https://github.com/hypeJunction/Elgg-site_search",
+    "keywords": [
+        "elgg",
+        "plugin",
+        "search"
+    ],
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Ismayil Khayredinov",
+            "email": "ismayil.khayredinov@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.3",
+        "ext-intl": "*",
+        "elgg/elgg": "~7.0.0",
+        "composer/installers": "^2.0",
+        "hypejunction/object_sort": "~1.0",
+        "hypejunction/user_sort": "~1.0",
+        "hypejunction/group_sort": "~1.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true
+        }
+    },
+    "extra": {
+        "elgg-plugin": {
+            "id": "site_search"
+        }
+    },
+    "version": "7.0.0"
 }

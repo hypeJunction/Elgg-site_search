@@ -1,6 +1,6 @@
 Site Search for Elgg
 ====================
-![Elgg 5.x](https://img.shields.io/badge/Elgg-5.x-orange.svg?style=flat-square)
+![Elgg 7.x](https://img.shields.io/badge/Elgg-7.x-orange.svg?style=flat-square)
 
 ## Features
 
@@ -17,3 +17,8 @@ Currently, due to the limitations of the search plugin, this plugin implements i
 therefore custom search implemented by other plugins might not work.
 To implement custom search type, add a view to `lists/search/$search_type` and render your own list.
 
+## Compatibility
+
+| Plugin version | Elgg version |
+|---|---|
+| current | 7.x |
