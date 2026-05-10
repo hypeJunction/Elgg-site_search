@@ -17,7 +17,6 @@ Currently, due to the limitations of the search plugin, this plugin implements i
 therefore custom search implemented by other plugins might not work.
 To implement custom search type, add a view to `lists/search/$search_type` and render your own list.
 
-
 ## Compatibility
 
 | Plugin version | Elgg version |
