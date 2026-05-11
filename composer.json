@@ -33,6 +33,5 @@
         "elgg-plugin": {
             "id": "site_search"
         }
-    },
-    "version": "7.0.0"
+    }
 }
